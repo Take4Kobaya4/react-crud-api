@@ -6,16 +6,18 @@ use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
+        $tasks = Task::query()
+            ->titleLike($request->input('title'))
+            ->get();
 
         return response()->json($tasks);
     }
